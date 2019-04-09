@@ -33,9 +33,9 @@ This script produces the following outputs:
 For the interpolation of the $a$, $b$ and $c$ values, as also indicated in the comments of the script, we choose function fitting over interpolation. Since there is some unknown uncertainty in the points $a$, $b$ and $c$ that we have calculated, fitting a function to these points makes more sense than interpolating between these points. This comes with the additional advantage that fitting a function that does not have to go through each point exactly is easier than writing an interpolator that does not have to go through each point. If we fit a function first, this function can then be used as an interpolator. 
 $a$ Seems to be positively correlated with halo mass, where the points perhaps have some scatter around the best fitting line. Thus we fit a linear model using a least squares fit. The result is plotted in Figure \ref{fig:fig7}.
 
-Conversely, $c$ seems to be negatively correlated with halo mass, except the point $c$ of the final mass bin. We remove this point from the data, as it seems like an outlier. Since mass bin 15 has the least amount of data, this is a probable explanation for the data point. A linear model using a least squares fit is then also fit to $c$. The result is plotted in Figure \ref{fig:fig8}.
+Conversely, $c$ seems to be negatively correlated with halo mass, except the point $c$ of the final mass bin. We remove this point from the data, as it seems like an outlier. Since mass bin 15 has the least amount of data, this is a probable explanation for the data point. A linear model using a least squares fit is then also fit to $c$. The result is plotted in Figure \ref{fig:fig9}.
 
-For $b$ the problem is a little less straightforward. By eye no easy-to-spot correlation is visible. However, if we assume that point $c$ in the last mass bin was an outlier, then point $b$ in the last mass bin is probably not correct either. Removing the last point of $b$ allows for a linear model as well, which we fit with least squares. This result is plotted in Figure \ref{fig:fig9}.
+For $b$ the problem is a little less straightforward. By eye no easy-to-spot correlation is visible. However, if we assume that point $c$ in the last mass bin was an outlier, then point $b$ in the last mass bin is probably not correct either. Removing the last point of $b$ allows for a linear model as well, which we fit with least squares. This result is plotted in Figure \ref{fig:fig8}.
 
 
 
@@ -53,7 +53,7 @@ For $b$ the problem is a little less straightforward. By eye no easy-to-spot cor
   \centering
   \includegraphics[width=1.0\linewidth]{./plots/q3b2.png}
   \captionsetup{width=0.8\linewidth}
-  \captionof{figure}{Values of $a$ as a function of halo mass, with the best fit linear model calculated with linear least squares, omitting the last data point.}
+  \captionof{figure}{Values of $b$ as a function of halo mass, with the best fit linear model calculated with linear least squares, omitting the last data point.}
   \label{fig:fig8}
 \end{minipage}
 \end{figure}
@@ -61,6 +61,6 @@ For $b$ the problem is a little less straightforward. By eye no easy-to-spot cor
 \begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{./plots/q3b3.png}
-    \caption{Values of $a$ as a function of halo mass, with the best fit linear model calculated with linear least squares, omitting the last data point.}
+    \caption{Values of $c$ as a function of halo mass, with the best fit linear model calculated with linear least squares, omitting the last data point.}
     \label{fig:fig9}
 \end{figure}
