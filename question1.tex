@@ -1,0 +1,45 @@
+\section{Question 1.}
+
+\subsection{My own routines}
+Before we start the assignment I have prepared some useful routines as well. These are routines that are implemented in standard python/numpy functions but I am not sure we can use. These routines are given by:
+\lstinputlisting{some_routines.py}
+
+\subsection{Preparing some useful routines}
+In exercise 1, we are asked to write a function that returns the Poisson probability distribution function for integer $k$ and output values given some $\lambda$ and $k$. Additionally, we implement a random number generator as a combination of a linear congruential generator and a 64 bit XOR-shift method. To calculate the Poisson probabilities given the memory requirement in the assignment, we could simply use a \textit{numpy.float64} since floats can represent much larger numbers than integers with the same amount of bits. But this only works for up to about $170!$. So for the bonus point, we have to be a little more clever. We don't need the final value of 200!, but only the ratio of 
+$\lambda^k / k! $
+We can calculate the Poisson probability as the exponent of the logarithm of the Poisson probability 
+\begin{equation} \frac{\lambda^k}{k!}e^{-\lambda} = \exp\left( \log \left( \frac{\lambda^k}{k!} \mathcal{e}^{-\lambda} \right) \right), 
+\end{equation}
+and we can write the logarithm as
+\begin{equation}
+\log \left( \frac{\lambda^k}{k!} e^{-\lambda} \right) = k\log(\lambda)-\log(k!) -\lambda
+\end{equation} 
+The logarithm of multiplications is equal to the sums of logarithms, so this is what we can use to calculate the log (e.g., $\log (3!) = \log(3)+\log(2) + \log(1) = \log(3)+\log(2)$). 
+
+To answer the questions in exercise one, our  script is given by:
+
+\lstinputlisting{question1.py}
+
+This script produces the following outputs:
+\lstinputlisting[language={}]{q1output.txt}
+
+Our script produces the following figures, see Figure \ref{fig:fig1}, and Figure \ref{fig:fig2}. From these figures, we see that the random number generator performs quite well. No clear pattern is shown in Figure \ref{fig:fig1} and a uniform distribution of numbers between 0 and 1 is clearly shown in Figure \ref{fig:fig2}.
+
+\begin{figure}[h]
+\centering
+\begin{minipage}[t]{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{./plots/q1b1.png}
+  \captionsetup{width=0.8\linewidth}
+  \captionof{figure}{Comparison of 1000 random numbers.}
+  \label{fig:fig1}
+\end{minipage}%
+\begin{minipage}[t]{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{./plots/q1b2.png}
+  \captionsetup{width=0.8\linewidth}
+  \captionof{figure}{Histogram of 1 million random numbers.}
+  \label{fig:fig2}
+\end{minipage}
+\end{figure}
+

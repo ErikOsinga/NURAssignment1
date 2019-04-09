@@ -1,0 +1,66 @@
+
+\section{Turning things around}
+
+
+In exercise 3, we work with files that contain random realizations of the density profile given in exercise 2. The log likelihood of $N$ independent and identically distributed draws from the density profile is given by:
+\begin{equation}
+    \mathcal{L} = \prod_{i=0}^{N-1} N(x_i) = (4\pi A)^N \prod_{i=0}^{N-1} \left[ \left(\frac{x_i}{b}\right)^{a-1} \exp\left(-\left(\frac{x_i}{b}\right)^c \right) \right]
+\end{equation}
+Dropping the $(4\pi)^N$, as it is simply a constant, the log-likelihood is given by
+\begin{equation}
+    \log \mathcal{L} = N \log A + (a-1) \sum_{i=0}^{N-1} \log \left(\frac{x_i}{b}\right)  - \sum_{i=0}^{N-1} \left(\frac{x_i}{b}\right)^c 
+\end{equation}
+Which can be written as
+\begin{equation}
+    \log \mathcal{L} = N \log A + (a-1) \left( - N\log(b) + \sum_{i=0}^{N-1} \log(x_i) \right) - b^{-c}\sum_{i=0}^{N-1}(x_i)^c
+\end{equation}
+Where we only have to calculate the $\sum_{i=0}^{N-1} \log(x_i)$ term once, since it is otherwise independent of $a$, $b$ and $c$. $A$ is calculated using the trilinear interpolator from question two. 
+
+
+
+
+
+
+
+Our script is given by:
+
+\lstinputlisting{question3.py}
+
+This script produces the following outputs:
+\lstinputlisting[language={}]{q3output.txt}
+
+
+For the interpolation of the $a$, $b$ and $c$ values, as also indicated in the comments of the script, we choose function fitting over interpolation. Since there is some unknown uncertainty in the points $a$, $b$ and $c$ that we have calculated, fitting a function to these points makes more sense than interpolating between these points. This comes with the additional advantage that fitting a function that does not have to go through each point exactly is easier than writing an interpolator that does not have to go through each point. If we fit a function first, this function can then be used as an interpolator. 
+$a$ Seems to be positively correlated with halo mass, where the points perhaps have some scatter around the best fitting line. Thus we fit a linear model using a least squares fit. The result is plotted in Figure \ref{fig:fig7}.
+
+Conversely, $c$ seems to be negatively correlated with halo mass, except the point $c$ of the final mass bin. We remove this point from the data, as it seems like an outlier. Since mass bin 15 has the least amount of data, this is a probable explanation for the data point. A linear model using a least squares fit is then also fit to $c$. The result is plotted in Figure \ref{fig:fig8}.
+
+For $b$ the problem is a little less straightforward. By eye no easy-to-spot correlation is visible. However, if we assume that point $c$ in the last mass bin was an outlier, then point $b$ in the last mass bin is probably not correct either. Removing the last point of $b$ allows for a linear model as well, which we fit with least squares. This result is plotted in Figure \ref{fig:fig9}.
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{minipage}[t]{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{./plots/q3b1.png}
+  \captionsetup{width=0.8\linewidth}
+  \captionof{figure}{Values of $a$ as a function of halo mass, with the best fit linear model calculated with linear least squares.}
+  \label{fig:fig7}
+\end{minipage}%
+\begin{minipage}[t]{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{./plots/q3b2.png}
+  \captionsetup{width=0.8\linewidth}
+  \captionof{figure}{Values of $a$ as a function of halo mass, with the best fit linear model calculated with linear least squares, omitting the last data point.}
+  \label{fig:fig8}
+\end{minipage}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{./plots/q3b3.png}
+    \caption{Values of $a$ as a function of halo mass, with the best fit linear model calculated with linear least squares, omitting the last data point.}
+    \label{fig:fig9}
+\end{figure}

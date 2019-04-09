@@ -1,0 +1,88 @@
+\section{Satellite galaxies and density profiles}
+
+
+The code for exercise two is as follows. 
+
+\lstinputlisting{question2.py}
+
+There are a couple things I should comment on before we look at the outputs of the script. The interpolation for question 2b is, as can also be read in the comments, a combination of two different methods in two different spaces. For the first part of the function domain, log-log space is the preferred space because if we take the logarithm of both sides, the expression becomes 
+\begin{equation}
+    log(n) \propto log(x)- x^c
+\end{equation}
+So in log log space, for $x \lesssim 1$ we have an approximately linear function $log(n) \propto log(x)$. 
+For $x > 1$ we have an exponential function, so we fit this in log-lin space with Neville's algorithm, since in this part of the domain we have approximately
+$ log(n) \propto x^c$
+As $c$ will be some number between 1.5 and 4, a quadratic polynomial is a best guess. Thus we fit a polynomial of order 2 between last 3 data points with Neville's algorithm. Of course the quality of the interpolation will depend on the randomly generated $a$, $b$, and $c$, but in general this method performs quite well. 
+
+
+As for generating the satellite positions $x,\theta,\phi$. We used rejection sampling for $x$, since the probability density function is not invertible or integrable. For the angles on the sphere, we are careful about the fact that 
+the surface area of a sphere: $dA = rd\theta * r sin\theta d\phi$ reduces in size near the poles ($\theta$ near 0 or $\pi$). Thus we can draw $\phi$ (the azimuthal angle) from a uniform distribution between 0 and $2\pi$, but not $\theta$. From the total area of a sphere being $4\pi$ we can find $\theta$ has pdf: 
+
+\begin{equation}
+f(\theta) = \frac{1}{2} \sin\theta    
+\end{equation}
+We use inverse transform sampling to find $\theta$ since we know the cumulative distribution function of this distribution:
+\begin{equation}
+F(\theta) = \frac{1}{2}(1-\cos(\theta) )    
+\end{equation}
+and the inverse of this:
+\begin{equation}
+\theta = F^{-1}(u) = \arccos(1-2u) )
+\end{equation}
+
+
+
+In full, the script for question 2 produces the following outputs:
+\lstinputlisting[language={}]{q2output.txt}
+The satellite positions are given below. The first column contains $x \in [0,5]$, the second $\theta \in [0,\pi]$ and the last $\phi \in [0,2\pi]$.
+
+\lstinputlisting[]{satellitepositions.txt}
+
+The script produces the following figures. From Figure \ref{fig:fig3}, we see that in log-log space the function is indeed approximately linear in the first part of the domain, and drops steeply in the last part of the domain. Figure \ref{fig:fig4} shows the interpolated values with the method as explained above. 
+
+
+Figure \ref{fig:fig5} shows the normalized histogram of galaxies generated with rejection sampling. The analytical probability distribution is over-plotted. As can be appreciated from this Figure \ref{fig:fig5}, the generated galaxies match the analytical function very well. Finally, Figure \ref{fig:fig6} shows the amount of galaxies in the radial bin that contains the maximum amount of galaxies, in each halo. By using bins of width 1, we effectively converge to a Poisson probability distribution function, which is over-plotted and matches the data very well too.
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{minipage}[t]{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{./plots/q2b1.png}
+  \captionsetup{width=0.8\linewidth}
+  \captionof{figure}{(Question 2b) Log-log plot of 5 data points that are given.}
+  \label{fig:fig3}
+\end{minipage}%
+\begin{minipage}[t]{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{./plots/q2b2.png}
+  \captionsetup{width=0.8\linewidth}
+  \captionof{figure}{(Question 2b) Interpolation between the points as defined in the text.}
+  \label{fig:fig4}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\begin{minipage}[t]{.5\textwidth}
+  \centering
+    \includegraphics[width=1.0\linewidth]{./plots/q2e1.png}
+  \captionsetup{width=0.8\linewidth}
+  \captionof{figure}{(Question 2e) Histogram of the normalized number of satellites in 20 logarithmically spaced bins. The analytical PDF from which the data is generated is shown as well.}
+  \label{fig:fig5}
+\end{minipage}%
+\begin{minipage}[t]{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{./plots/q2g1.png}
+  \captionsetup{width=0.8\linewidth}
+  \captionof{figure}{(Question 2g) Histogram of the number of galaxies in the radial bin that contains the maximum number of galaxies, per halo. The analytical Poisson PDF with mean equal to the mean number of galaxies is overplotted as well. }
+  \label{fig:fig6}
+\end{minipage}
+\end{figure}
+
+
+
+
+
